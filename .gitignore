@@ -1,0 +1,5 @@
+*.dat
+elpa/
+site-lisp/
+theme/
+
