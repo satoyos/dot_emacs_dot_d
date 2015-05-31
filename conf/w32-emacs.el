@@ -29,16 +29,16 @@
 ;; ;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
 
 ;; デフォルト フォント
-(set-face-attribute 'default nil :family "Migu 1M" :height 160)
+(set-face-attribute 'default nil :family "Migu 1M" :height 120)
 
 ;; プロポーショナル フォント
-(set-face-attribute 'variable-pitch nil :family "Migu 1M" :height 160)
+(set-face-attribute 'variable-pitch nil :family "Migu 1M" :height 120)
 
 ;; 等幅フォント
-(set-face-attribute 'fixed-pitch nil :family "Migu 1M" :height 160)
+(set-face-attribute 'fixed-pitch nil :family "Migu 1M" :height 120)
 
 ;; ツールチップ表示フォント
-(set-face-attribute 'tooltip nil :family "Migu 1M" :height 130)
+(set-face-attribute 'tooltip nil :family "Migu 1M" :height 80)
 
 ;;; fontset
 
@@ -49,13 +49,13 @@
 (global-set-key (kbd "C--")            '(lambda() (interactive) (text-scale-decrease 1)))
 
 ;; フォントサイズ リセット
-(global-set-key (kbd "M-0") '(lambda() (interactive) (text-scale-set 0))))
+(global-set-key (kbd "M-0") '(lambda() (interactive) (text-scale-set 0)))
 
 ;; cp932エンコードの表記変更
 (coding-system-put 'cp932 :mnemonic ?P)
 (coding-system-put 'cp932-dos :mnemonic ?P)
 (coding-system-put 'cp932-unix :mnemonic ?P)
-(coding-system-put 'cp932-mac :mnemonic ?P))
+(coding-system-put 'cp932-mac :mnemonic ?P)
 
 ;; バッファ切り替え時の状態引継ぎ設定
 (setq w32-ime-buffer-switch-p nil)
@@ -82,5 +82,3 @@
 ;; (M-! and M-| and compile.el)
 (setq shell-file-name "bash.exe")
 (modify-coding-system-alist 'process ".*sh\\.exe" 'utf-8)
-
-

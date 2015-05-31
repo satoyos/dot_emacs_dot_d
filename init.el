@@ -417,6 +417,8 @@
 
 ;; スクロールダウン
 (global-set-key (kbd "C-z") 'scroll-down)
+(global-set-key (kbd "C-,") 'scroll-down)
+(global-set-key (kbd "C-.") 'scroll-up)
 
 ;; バッファの最後までスクロールダウン
 (defadvice scroll-down (around scroll-down activate compile)
