@@ -27,8 +27,22 @@
          (file-name-as-directory (concat user-emacs-directory "site-lisp")))
        )
   (add-to-list 'load-path default-directory)
+  (add-to-list 'load-path (concat user-emacs-directory "elpa"))
+  (add-to-list 'load-path (concat user-emacs-directory "conf"))
   (normal-top-level-add-subdirs-to-load-path)
   )
+
+
+;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
+;;; @ package manager                                               ;;;
+;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
+
+(require 'package)
+(add-to-list 'package-archives
+             '("melpa" . "http://melpa.milkbox.net/packages/") t)
+(add-to-list 'package-archives
+             '("marmalade" . "http://marmalade-repo.org/packages/"))
+(package-initialize)
 
 
 ;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
@@ -51,12 +65,19 @@
 (setq default-process-coding-system '(undecided-dos . utf-8-unix))
 
 
-;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
-;;; @ key binding - keyboard                                        ;;;
-;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
+;; @ OS dependency                                                 ;;;
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
 
-;;; Altキーを使用せずにMetaキーを使用
-;(setq w32-alt-is-meta nil)
+(when (memq window-system '(w32))
+  (load "w32-emacs"))
+
+(when (memq window-system '(mac ns))
+  (load "mac-emacs"))
+
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
+;; @ key binding - keyboard                                        ;;;
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
 
 ;; C-hをバックスペースにする
 ;; 入力されるキーシーケンスを置き換える
@@ -64,58 +85,6 @@
 
 ;; 段落整形のキーを変更する
 (global-set-key (kbd "C-\\") 'fill-paragraph)
-
-;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
-;;; @ language - input method                                       ;;;
-;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
-
-;; モードラインの表示文字列
-(setq-default w32-ime-mode-line-state-indicator "[Aa] ")
-(setq w32-ime-mode-line-state-indicator-list '("[Aa]" "[あ]" "[Aa]"))
-
-;; IME初期化
-(w32-ime-initialize)
-
-;; デフォルトIME
-(setq default-input-method "W32-IME")
-
-;; IME変更
-;(global-set-key (kbd "C-\\") 'toggle-input-method)
-(global-set-key (kbd "C-o") 'toggle-input-method)
-
-;; 漢字/変換キー入力時のエラーメッセージ抑止
-(global-set-key (kbd "<A-kanji>") 'ignore)
-(global-set-key (kbd "<M-kanji>") 'ignore)
-(global-set-key (kbd "<kanji>") 'ignore)
-
-
-;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
-;;; @ language - fontset                                            ;;;
-;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
-
-;; デフォルト フォント
-(set-face-attribute 'default nil :family "Migu 1M" :height 110)
-
-;; プロポーショナル フォント
-(set-face-attribute 'variable-pitch nil :family "Migu 1M" :height 110)
-
-;; 等幅フォント
-(set-face-attribute 'fixed-pitch nil :family "Migu 1M" :height 110)
-
-;; ツールチップ表示フォント
-(set-face-attribute 'tooltip nil :family "Migu 1M" :height 90)
-
-;;; fontset
-
-;; フォントサイズ調整
-(global-set-key (kbd "C-<wheel-up>")   '(lambda() (interactive) (text-scale-increase 1)))
-(global-set-key (kbd "C-=")            '(lambda() (interactive) (text-scale-increase 1)))
-(global-set-key (kbd "C-<wheel-down>") '(lambda() (interactive) (text-scale-decrease 1)))
-(global-set-key (kbd "C--")            '(lambda() (interactive) (text-scale-decrease 1)))
-
-;; フォントサイズ リセット
-(global-set-key (kbd "M-0") '(lambda() (interactive) (text-scale-set 0)))
-
 
 ;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
 ;;; @ screen - frame                                                ;;;
@@ -188,12 +157,6 @@
  )
 (setq mode-line-frame-identification " ")
 
-;; cp932エンコードの表記変更
-(coding-system-put 'cp932 :mnemonic ?P)
-(coding-system-put 'cp932-dos :mnemonic ?P)
-(coding-system-put 'cp932-unix :mnemonic ?P)
-(coding-system-put 'cp932-mac :mnemonic ?P)
-
 ;; UTF-8エンコードの表記変更
 (coding-system-put 'utf-8 :mnemonic ?U)
 (coding-system-put 'utf-8-with-signature :mnemonic ?u)
@@ -227,7 +190,7 @@
 ;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
 
 ;; カーソルの点滅
-(blink-cursor-mode 0)
+(blink-cursor-mode 1)
 
 ;; 非アクティブウィンドウのカーソル表示
 (setq-default cursor-in-non-selected-windows t)
@@ -268,9 +231,6 @@
     )
  )
 
-;; バッファ切り替え時の状態引継ぎ設定
-(setq w32-ime-buffer-switch-p nil)
-
 
 ;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
 ;;; @ screen - linum                                                ;;;
@@ -305,38 +265,38 @@
 (set-face-attribute 'linum nil :height 0.75)
 
 
-;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
-;;; @ screen - tabbar                                               ;;;
-;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
+;; ;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
+;; ;;; @ screen - tabbar                                               ;;;
+;; ;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
 
-(require 'tabbar)
+;; (require 'tabbar)
 
-;; tabbar有効化
-(call-interactively 'tabbar-mode t)
+;; ;; tabbar有効化
+;; (call-interactively 'tabbar-mode t)
 
-;; ボタン非表示
-(dolist (btn '(tabbar-buffer-home-button
-               tabbar-scroll-left-button
-               tabbar-scroll-right-button))
-  (set btn (cons (cons "" nil) (cons "" nil)))
-  )
+;; ;; ボタン非表示
+;; (dolist (btn '(tabbar-buffer-home-button
+;;                tabbar-scroll-left-button
+;;                tabbar-scroll-right-button))
+;;   (set btn (cons (cons "" nil) (cons "" nil)))
+;;   )
 
-;; タブ切替にマウスホイールを使用（0：有効，-1：無効）
-(call-interactively 'tabbar-mwheel-mode -1)
-(remove-hook 'tabbar-mode-hook      'tabbar-mwheel-follow)
-(remove-hook 'mouse-wheel-mode-hook 'tabbar-mwheel-follow)
+;; ;; タブ切替にマウスホイールを使用（0：有効，-1：無効）
+;; (call-interactively 'tabbar-mwheel-mode -1)
+;; (remove-hook 'tabbar-mode-hook      'tabbar-mwheel-follow)
+;; (remove-hook 'mouse-wheel-mode-hook 'tabbar-mwheel-follow)
 
-;; タブグループを使用（t：有効，nil：無効）
-(defvar tabbar-buffer-groups-function nil)
-(setq tabbar-buffer-groups-function nil)
+;; ;; タブグループを使用（t：有効，nil：無効）
+;; (defvar tabbar-buffer-groups-function nil)
+;; (setq tabbar-buffer-groups-function nil)
 
-;; タブの表示間隔
-(defvar tabbar-separator nil)
-(setq tabbar-separator '(1.0))
+;; ;; タブの表示間隔
+;; (defvar tabbar-separator nil)
+;; (setq tabbar-separator '(1.0))
 
-;; タブ切り替え
-(global-set-key (kbd "<C-tab>") 'tabbar-forward-tab)
-(global-set-key (kbd "C-q")     'tabbar-backward-tab)
+;; ;; タブ切り替え
+;; (global-set-key (kbd "<C-tab>") 'tabbar-forward-tab)
+;; (global-set-key (kbd "C-q")     'tabbar-backward-tab)
 
 
 ;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
@@ -378,43 +338,6 @@
  'isearch-mode-end-hook
  '(lambda() (setq w32-ime-composition-window nil))
  )
-
-
-;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
-;;; @ screen - hiwin                                                ;;;
-;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
-
-(require 'hiwin)
-
-;; hiwin-modeを有効化
-(hiwin-activate)
-
-
-;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
-;;; @ search - migemo                                               ;;;
-;;;   https://github.com/emacs-jp/migemo                            ;;;
-;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
-
-(require 'migemo)
-
-(defvar migemo-command nil)
-(setq migemo-command "cmigemo")
-
-(defvar migemo-options nil)
-(setq migemo-options '("-q" "--emacs"))
-
-(defvar migemo-dictionary nil)
-(setq migemo-dictionary "/usr/local/share/migemo/utf-8/migemo-dict")
-
-(defvar migemo-user-dictionary nil)
-
-(defvar migemo-regex-dictionary nil)
-
-(defvar migemo-coding-system nil)
-(setq migemo-coding-system 'utf-8-unix)
-
-(load-library "migemo")
-
 
 ;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
 ;;; @ file - backup                                                 ;;;
@@ -520,31 +443,6 @@
         (goto-char (point-max))
       ad-do-it) ))
 
-
-;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
-;;; @ shell                                                         ;;;
-;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
-
-(require 'shell)
-(setq explicit-shell-file-name "bash.exe")
-(setq shell-command-switch "-c")
-(setq shell-file-name "bash.exe")
-
-;; (M-! and M-| and compile.el)
-(setq shell-file-name "bash.exe")
-(modify-coding-system-alist 'process ".*sh\\.exe" 'utf-8)
-
-
-;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
-;;; @ package manager                                               ;;;
-;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
-
-(require 'package)
-(add-to-list 'package-archives
-             '("melpa" . "http://melpa.milkbox.net/packages/") t)
-(add-to-list 'package-archives
-             '("marmalade" . "http://marmalade-repo.org/packages/"))
-(package-initialize)
 
 
 ;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
@@ -664,3 +562,62 @@
 (setq ac-auto-start nil)
 ;; 起動キーの設定
 (ac-set-trigger-key "TAB")
+
+;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
+;;; @ screen - tabbar                                               ;;;
+;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
+
+(require 'tabbar)
+
+;; tabbar有効化
+(call-interactively 'tabbar-mode t)
+
+;; ボタン非表示
+(dolist (btn '(tabbar-buffer-home-button
+               tabbar-scroll-left-button
+               tabbar-scroll-right-button))
+  (set btn (cons (cons "" nil) (cons "" nil)))
+  )
+
+;; タブ切替にマウスホイールを使用（0：有効，-1：無効）
+(call-interactively 'tabbar-mwheel-mode -1)
+(remove-hook 'tabbar-mode-hook      'tabbar-mwheel-follow)
+(remove-hook 'mouse-wheel-mode-hook 'tabbar-mwheel-follow)
+
+;; タブグループを使用（t：有効，nil：無効）
+(defvar tabbar-buffer-groups-function nil)
+(setq tabbar-buffer-groups-function nil)
+
+;; タブの表示間隔
+(defvar tabbar-separator nil)
+(setq tabbar-separator '(1.0))
+
+;; タブ切り替え
+(global-set-key (kbd "<C-tab>") 'tabbar-forward-tab)
+(global-set-key (kbd "C-q")     'tabbar-backward-tab)
+
+;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
+;;; @ search - migemo                                               ;;;
+;;;   https://github.com/emacs-jp/migemo                            ;;;
+;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
+
+(require 'migemo)
+
+(defvar migemo-command nil)
+(setq migemo-command "cmigemo")
+
+(defvar migemo-options nil)
+(setq migemo-options '("-q" "--emacs"))
+
+(defvar migemo-dictionary nil)
+(setq migemo-dictionary "/usr/local/share/migemo/utf-8/migemo-dict")
+
+(defvar migemo-user-dictionary nil)
+
+(defvar migemo-regex-dictionary nil)
+
+(defvar migemo-coding-system nil)
+(setq migemo-coding-system 'utf-8-unix)
+
+(load-library "migemo")
+
