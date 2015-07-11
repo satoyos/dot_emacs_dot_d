@@ -564,6 +564,9 @@
 (setq ac-auto-start nil)
 ;; 起動キーの設定
 (ac-set-trigger-key "TAB")
+;; 「空気を読んでほしい」
+;; http://dev.ariel-networks.com/wp/documents/aritcles/emacs/part9
+(setq ac-dwim t)
 
 ;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
 ;;; @ screen - tabbar                                               ;;;
@@ -572,7 +575,8 @@
 (require 'tabbar)
 
 ;; tabbar有効化
-(call-interactively 'tabbar-mode t)
+;(call-interactively 'tabbar-mode t)
+(tabbar-mode 1)
 
 ;; ボタン非表示
 (dolist (btn '(tabbar-buffer-home-button
