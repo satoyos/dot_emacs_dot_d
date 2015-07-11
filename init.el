@@ -623,3 +623,49 @@
 
 (load-library "migemo")
 
+
+;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
+;;; 「Emacsから逃げ出してSublimeText->Atomの後、
+;;;   Emacsに再入門した際の設定とか記録」より
+;;; http://blog.bokuweb.me/entry/emcas-nyumon
+;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
+
+;; scratchの初期メッセージ消去
+(setq initial-scratch-message "")
+
+;; タブをスペースで扱う
+(setq-default indent-tabs-mode nil)
+
+;; タブ幅
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   (quote
+    ("11dd7fb48f2c0360f79e80a694c9e919a86dce32e5605018e9862e1e6287e3cb" default)))
+ '(tab-width 4))
+
+;; yes or noをy or n
+(fset 'yes-or-no-p 'y-or-n-p)
+
+;; 最近使ったファイルの表示数
+(setq recentf-max-menu-items 10)
+
+;; 最近開いたファイルの保存数を増やす
+(setq recentf-max-saved-items 3000)
+
+;; ミニバッファの履歴を保存する
+(savehist-mode 1)
+
+;; ミニバッファの履歴の保存数を増やす
+(setq history-length 3000)
+
+;; 1行ずつスクロール
+(setq scroll-conservatively 35
+      scroll-margin 0
+      scroll-step 1)
+(setq comint-scroll-show-maximum-output t) ;; shell-mode
+
+
