@@ -86,6 +86,9 @@
 ;; 段落整形のキーを変更する
 (global-set-key (kbd "C-\\") 'fill-paragraph)
 
+;; 文字列置換
+(global-set-key (kbd "M-r")  'replace-string)
+
 ;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
 ;;; @ screen - frame                                                ;;;
 ;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
@@ -695,5 +698,3 @@
       scroll-margin 0
       scroll-step 1)
 (setq comint-scroll-show-maximum-output t) ;; shell-mode
-
-
