@@ -53,4 +53,18 @@
 ;; C-x 5 2 で新しいフレームを作ったときに同じフォントを使う
 (setq frame-inherited-parameters '(font tool-bar-lines))
 
+;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
+;;; @ motion-mode.el
+;;; RubyMotion開発支援
+;;; https://github.com/ainame/motion-mode
+;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
+
+(require 'motion-mode)
+;; following add-hook is very important.
+(add-hook 'ruby-mode-hook 'motion-recognize-project)
+(add-to-list 'ac-modes 'motion-mode)
+(add-to-list 'ac-sources 'ac-source-dictionary)
+;; set key-binds as you like
+(define-key motion-mode-map (kbd "C-c C-c") 'motion-execute-rake)
+(define-key motion-mode-map (kbd "C-c C-d") 'motion-dash-at-point)
 
