@@ -544,6 +544,7 @@
 (auto-install-compatibility-setup)             ; 互換性確保
 
 ;; auto-complete-mode
+(require 'auto-complete)
 (require 'auto-complete-config)
 ;; 対象の全てで補完を有効にする
 (global-auto-complete-mode t)
@@ -553,10 +554,10 @@
 (define-key ac-completing-map (kbd "C-n") 'ac-next)
 (define-key ac-completing-map (kbd "C-p") 'ac-previous)
 (define-key ac-completing-map (kbd "M-/") 'ac-stop)
-;; 補完が自動で起動するのを停止
-(setq ac-auto-start nil)
+;; 補完は3文字めから
+(setq ac-auto-start 3)
 ;; 起動キーの設定
-(ac-set-trigger-key "TAB")
+;; (ac-set-trigger-key "TAB")
 ;; 「空気を読んでほしい」
 ;; http://dev.ariel-networks.com/wp/documents/aritcles/emacs/part9
 (setq ac-dwim t)
