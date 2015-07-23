@@ -68,3 +68,26 @@
 (define-key motion-mode-map (kbd "C-c C-c") 'motion-execute-rake)
 (define-key motion-mode-map (kbd "C-c C-d") 'motion-dash-at-point)
 
+;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
+;;; ruby-mode
+;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
+
+(autoload 'ruby-mode "ruby-mode" "Mode for editing ruby source files" t)
+(setq auto-mode-alist (cons '("\\.rb$" . ruby-mode) auto-mode-alist))
+(setq interpreter-mode-alist (append '(("ruby" . ruby-mode)) interpreter-mode-alist))
+(autoload 'inf-ruby "inf-ruby" "Run an inferior Ruby process" t)
+(autoload 'inf-ruby-setup-keybindings "inf-ruby" "" t)
+(eval-after-load 'ruby-mode
+  '(add-hook 'ruby-mode-hook 'inf-ruby-setup-keybindings))
+
+;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
+;;; rinari
+;;; Ruby on Rails開発支援
+;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
+
+;; Interactively Do Things (highly recommended, but not strictly required)
+(require 'ido)
+(ido-mode t)
+
+;; Rinari
+(require 'rinari)
