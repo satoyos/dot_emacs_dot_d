@@ -91,3 +91,12 @@
 
 ;; Rinari
 (require 'rinari)
+;; rinariを賢く起動する方法が分からないので当面はruby-modeでは必ず起動してみる
+(add-hook 'ruby-mode-hook
+    (lambda () (rinari-launch)))
+
+
+;;; rhtml-mode
+(require 'rhtml-mode)
+(add-hook 'rhtml-mode-hook
+    (lambda () (rinari-launch)))
