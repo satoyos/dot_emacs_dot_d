@@ -97,6 +97,11 @@
 
 
 ;;; rhtml-mode
-(require 'rhtml-mode)
-(add-hook 'rhtml-mode-hook
+;;(require 'rhtml-mode)
+;;(add-hook 'rhtml-mode-hook
+;;    (lambda () (rinari-launch)))
+
+;; 上記rhtml-modeが今はメンテされておらず、うまく動かないこともあり、
+;; 強引だが erbのメジャーモードであるWeb-modeで rinaiを起動してみる
+(add-hook 'web-mode-hook
     (lambda () (rinari-launch)))
