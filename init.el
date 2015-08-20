@@ -631,6 +631,7 @@
 (require 'anything-startup nil t)
 (global-set-key (kbd "M-a")     'anything-for-files)
 (global-set-key (kbd "M-y") 'anything-show-kill-ring)
+(setq anything-use-migemo t)
 
 ;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
 ;;; 「Emacsから逃げ出してSublimeText->Atomの後、
