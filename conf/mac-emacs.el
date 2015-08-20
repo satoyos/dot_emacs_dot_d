@@ -53,4 +53,55 @@
 ;; C-x 5 2 で新しいフレームを作ったときに同じフォントを使う
 (setq frame-inherited-parameters '(font tool-bar-lines))
 
+;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
+;;; @ motion-mode.el
+;;; RubyMotion開発支援
+;;; https://github.com/ainame/motion-mode
+;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
 
+(require 'motion-mode)
+;; following add-hook is very important.
+(add-hook 'ruby-mode-hook 'motion-recognize-project)
+(add-to-list 'ac-modes 'motion-mode)
+(add-to-list 'ac-sources 'ac-source-dictionary)
+;; set key-binds as you like
+(define-key motion-mode-map (kbd "C-c C-c") 'motion-execute-rake)
+(define-key motion-mode-map (kbd "C-c C-d") 'motion-dash-at-point)
+
+;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
+;;; ruby-mode
+;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
+
+(autoload 'ruby-mode "ruby-mode" "Mode for editing ruby source files" t)
+(setq auto-mode-alist (cons '("\\.rb$" . ruby-mode) auto-mode-alist))
+(setq interpreter-mode-alist (append '(("ruby" . ruby-mode)) interpreter-mode-alist))
+(autoload 'inf-ruby "inf-ruby" "Run an inferior Ruby process" t)
+(autoload 'inf-ruby-setup-keybindings "inf-ruby" "" t)
+(eval-after-load 'ruby-mode
+  '(add-hook 'ruby-mode-hook 'inf-ruby-setup-keybindings))
+
+;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
+;;; rinari
+;;; Ruby on Rails開発支援
+;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
+
+;; Interactively Do Things (highly recommended, but not strictly required)
+(require 'ido)
+(ido-mode t)
+
+;; Rinari
+(require 'rinari)
+;; rinariを賢く起動する方法が分からないので当面はruby-modeでは必ず起動してみる
+(add-hook 'ruby-mode-hook
+    (lambda () (rinari-launch)))
+
+
+;;; rhtml-mode
+;;(require 'rhtml-mode)
+;;(add-hook 'rhtml-mode-hook
+;;    (lambda () (rinari-launch)))
+
+;; 上記rhtml-modeが今はメンテされておらず、うまく動かないこともあり、
+;; 強引だが erbのメジャーモードであるWeb-modeで rinaiを起動してみる
+(add-hook 'web-mode-hook
+    (lambda () (rinari-launch)))

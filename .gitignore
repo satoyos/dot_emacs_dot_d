@@ -1,4 +1,8 @@
 *.dat
 elpa/
 site-lisp/
-
+history
+recentf*
+url/
+snippets/
+ido.last

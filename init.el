@@ -66,16 +66,6 @@
 
 
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
-;; @ OS dependency                                                 ;;;
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
-
-(when (memq window-system '(w32))
-  (load "w32-emacs"))
-
-(when (memq window-system '(mac ns))
-  (load "mac-emacs"))
-
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
 ;; @ key binding - keyboard                                        ;;;
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
 
@@ -85,6 +75,9 @@
 
 ;; 段落整形のキーを変更する
 (global-set-key (kbd "C-\\") 'fill-paragraph)
+
+;; 文字列置換
+(global-set-key (kbd "M-r")  'replace-string)
 
 ;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
 ;;; @ screen - frame                                                ;;;
@@ -551,6 +544,7 @@
 (auto-install-compatibility-setup)             ; 互換性確保
 
 ;; auto-complete-mode
+(require 'auto-complete)
 (require 'auto-complete-config)
 ;; 対象の全てで補完を有効にする
 (global-auto-complete-mode t)
@@ -560,10 +554,13 @@
 (define-key ac-completing-map (kbd "C-n") 'ac-next)
 (define-key ac-completing-map (kbd "C-p") 'ac-previous)
 (define-key ac-completing-map (kbd "M-/") 'ac-stop)
-;; 補完が自動で起動するのを停止
-(setq ac-auto-start nil)
+;; 補完は3文字めから
+(setq ac-auto-start 3)
 ;; 起動キーの設定
-(ac-set-trigger-key "TAB")
+;; (ac-set-trigger-key "TAB")
+;; 「空気を読んでほしい」
+;; http://dev.ariel-networks.com/wp/documents/aritcles/emacs/part9
+(setq ac-dwim t)
 
 ;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
 ;;; @ screen - tabbar                                               ;;;
@@ -572,7 +569,8 @@
 (require 'tabbar)
 
 ;; tabbar有効化
-(call-interactively 'tabbar-mode t)
+;(call-interactively 'tabbar-mode t)
+(tabbar-mode 1)
 
 ;; ボタン非表示
 (dolist (btn '(tabbar-buffer-home-button
@@ -622,4 +620,176 @@
 (setq migemo-coding-system 'utf-8-unix)
 
 (load-library "migemo")
+
+
+;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
+;;; @ anything.el
+;;; 総合インタフェース
+;;; http://d.hatena.ne.jp/rubikitch/20100718/anything
+;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
+
+(require 'anything-startup nil t)
+(global-set-key (kbd "M-a")     'anything-for-files)
+(global-set-key (kbd "M-y") 'anything-show-kill-ring)
+(setq anything-use-migemo t)
+
+;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
+;;; 「Emacsから逃げ出してSublimeText->Atomの後、
+;;;   Emacsに再入門した際の設定とか記録」より
+;;; http://blog.bokuweb.me/entry/emcas-nyumon
+;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
+
+;; scratchの初期メッセージ消去
+(setq initial-scratch-message "")
+
+;; タブをスペースで扱う
+(setq-default indent-tabs-mode nil)
+
+;; タブ幅
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   (quote
+    ("11dd7fb48f2c0360f79e80a694c9e919a86dce32e5605018e9862e1e6287e3cb" default)))
+ '(tab-width 4))
+
+;; yes or noをy or n
+(fset 'yes-or-no-p 'y-or-n-p)
+
+;; 最近使ったファイルの表示数
+(setq recentf-max-menu-items 10)
+
+;; 最近開いたファイルの保存数を増やす
+(setq recentf-max-saved-items 3000)
+
+;; ミニバッファの履歴を保存する
+(savehist-mode 1)
+
+;; ミニバッファの履歴の保存数を増やす
+(setq history-length 3000)
+
+;; 1行ずつスクロール
+(setq scroll-conservatively 35
+      scroll-margin 0
+      scroll-step 1)
+(setq comint-scroll-show-maximum-output t) ;; shell-mode
+
+
+;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
+;;; 「年末emacs設定大掃除をして、
+;;;   これは捨てられないと思った設定書いてく」より
+;;; http://blog.shibayu36.org/entry/2012/12/29/001418
+;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
+
+;; バッファ自動再読み込み
+(global-auto-revert-mode 1)
+
+;; 現在行のハイライト
+(defface hlline-face
+  '((((class color)
+      (background dark))
+     (:background "dark slate gray"))
+    (((class color)
+      (background light))
+     (:background  "#98FB98"))
+    (t
+     ()))
+  "*Face used by hl-line.")
+(setq hl-line-face 'hlline-face)
+(global-hl-line-mode)
+
+;; wdired
+(require 'wdired)
+(define-key dired-mode-map "r" 'wdired-change-to-wdired-mode)
+
+
+;; popwin
+(setq pop-up-windows nil)
+(require 'popwin nil t)
+(when (require 'popwin nil t)
+  (setq anything-samewindow nil)
+  (setq display-buffer-function 'popwin:display-buffer)
+  (push '("anything" :regexp t :height 0.5) popwin:special-display-config)
+  (push '("*Completions*" :height 0.4) popwin:special-display-config)
+  (push '("*compilation*" :height 0.4 :noselect t :stick t) popwin:special-display-config)
+  )
+
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
+;; yasnippet
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
+
+(require 'yasnippet)
+
+(setq yas-snippet-dirs
+      '("~/.emacs.d/snippets"))
+(yas-global-mode 1)
+
+(custom-set-variables '(yas-trigger-key "TAB"))
+
+;; anything interface
+(eval-after-load "anything-config"
+  '(progn
+     (defun my-yas/prompt (prompt choices &optional display-fn)
+       (let* ((names (loop for choice in choices
+                           collect (or (and display-fn (funcall display-fn choice))
+                                       choice)))
+              (selected (anything-other-buffer
+                         `(((name . ,(format "%s" prompt))
+                            (candidates . names)
+                            (action . (("Insert snippet" . (lambda (arg) arg))))))
+                         "*anything yas/prompt*")))
+         (if selected
+             (let ((n (position selected names :test 'equal)))
+               (nth n choices))
+           (signal 'quit "user quit!"))))
+     (custom-set-variables '(yas/prompt-functions '(my-yas/prompt)))))
+
+;; 既存スニペットを挿入する
+(define-key yas-minor-mode-map (kbd "C-x i i") 'yas-insert-snippet)
+;; 新規スニペットを作成するバッファを用意する
+(define-key yas-minor-mode-map (kbd "C-x i n") 'yas-new-snippet)
+;; 既存スニペットを閲覧・編集する
+(define-key yas-minor-mode-map (kbd "C-x i v") 'yas-visit-snippet-file)
+
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
+;; Packages for ruby
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
+
+(setq ruby-electric-mode-map
+      (let ((map (make-sparse-keymap)))
+        (define-key map " " 'ruby-electric-space/return)
+        (define-key map [remap delete-backward-char] 'ruby-electric-delete-backward-char)
+        (define-key map [remap newline] 'ruby-electric-space/return)
+        (define-key map [remap newline-and-indent] 'ruby-electric-space/return)
+        map))
+
+(require 'ruby-electric)
+(add-hook 'ruby-mode-hook 'ruby-electric-mode)
+
+
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
+;; URLの取り扱い                                                   ;;;
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
+
+;; URLをハイライトで強調表示
+(require 'thingatpt)
+(global-hi-lock-mode 1)
+(add-hook 'find-mode-hook
+		  '(lambda()(highlight-regexp thing-at-point-url-regexp "hi-blue")))
+;; URLをブラウザで開くキーバインド
+(global-set-key "\C-c\C-j" 'browse-url-at-point)
+(global-set-key [double-mouse-1] 'browse-url-at-mouse)
+
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
+;; @ OS dependency                                                 ;;;
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
+
+(when (memq window-system '(w32))
+  (load "w32-emacs"))
+
+(when (memq window-system '(mac ns))
+  (load "mac-emacs"))
 
