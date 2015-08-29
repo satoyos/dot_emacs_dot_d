@@ -6,6 +6,12 @@
 (setenv "PATH" (concat '"/usr/local/bin:" (getenv "PATH")))
 
 ;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
+;;; Metaキーの割り当て                                              ;;;
+;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
+(setq ns-command-modifier (quote meta))
+(setq ns-alternate-modifier (quote super))
+
+;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
 ;;; @ language - input method                                       ;;;
 ;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
 
@@ -105,3 +111,4 @@
 ;; 強引だが erbのメジャーモードであるWeb-modeで rinaiを起動してみる
 (add-hook 'web-mode-hook
     (lambda () (rinari-launch)))
+
