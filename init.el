@@ -28,6 +28,7 @@
        )
   (add-to-list 'load-path default-directory)
   (add-to-list 'load-path (concat user-emacs-directory "elpa"))
+  (add-to-list 'load-path (concat user-emacs-directory "inits"))
   (add-to-list 'load-path (concat user-emacs-directory "conf"))
   (normal-top-level-add-subdirs-to-load-path)
   )
@@ -782,6 +783,12 @@
 ;; URLをブラウザで開くキーバインド
 (global-set-key "\C-c\C-j" 'browse-url-at-point)
 (global-set-key [double-mouse-1] 'browse-url-at-mouse)
+
+
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
+;; 初期化サブファイルの読み込み                                    ;;;
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
+(load "30-coffee")
 
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
 ;; @ OS dependency                                                 ;;;
