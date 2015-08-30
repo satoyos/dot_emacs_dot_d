@@ -28,7 +28,7 @@
        )
   (add-to-list 'load-path default-directory)
   (add-to-list 'load-path (concat user-emacs-directory "elpa"))
-  (add-to-list 'load-path (concat user-emacs-directory "inits"))
+;  (add-to-list 'load-path (concat user-emacs-directory "inits"))
   (add-to-list 'load-path (concat user-emacs-directory "conf"))
   (normal-top-level-add-subdirs-to-load-path)
   )
@@ -544,25 +544,6 @@
 (auto-install-update-emacswiki-package-name t)
 (auto-install-compatibility-setup)             ; 互換性確保
 
-;; auto-complete-mode
-(require 'auto-complete)
-(require 'auto-complete-config)
-;; 対象の全てで補完を有効にする
-(global-auto-complete-mode t)
-(ac-config-default)
-(add-hook 'html-mode-hook '(lambda () (auto-complete-mode t)))
-;; 補完ウィンドウ内でのキー定義
-(define-key ac-completing-map (kbd "C-n") 'ac-next)
-(define-key ac-completing-map (kbd "C-p") 'ac-previous)
-(define-key ac-completing-map (kbd "M-/") 'ac-stop)
-;; 補完は3文字めから
-(setq ac-auto-start 3)
-;; 起動キーの設定
-;; (ac-set-trigger-key "TAB")
-;; 「空気を読んでほしい」
-;; http://dev.ariel-networks.com/wp/documents/aritcles/emacs/part9
-(setq ac-dwim t)
-
 ;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
 ;;; @ screen - tabbar                                               ;;;
 ;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
@@ -788,6 +769,7 @@
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
 ;; 初期化サブファイルの読み込み                                    ;;;
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
+(load "20-auto-complete")
 (load "30-coffee")
 
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
