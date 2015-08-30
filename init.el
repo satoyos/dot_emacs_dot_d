@@ -699,15 +699,25 @@
   (push '("*compilation*" :height 0.4 :noselect t :stick t) popwin:special-display-config)
   )
 
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
-;; 初期化サブファイルの読み込み                                    ;;;
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
-(load "20-auto-complete")
-(load "30-coffee")
-(load "50-yasnippet")
-(load "50-ruby-electric")
-(load "50-thingatpt")
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;   init-loader   ;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;;設定ファイルはinits以下に置いていて、init-loaderによって読み込まれる
+(require 'init-loader)
+(init-loader-load "~/.emacs.d/inits")
+
+;; どのファイルでエラーが起こったのかを分かりやすくする
+(defun init-loader-re-load (re dir &optional sort)
+  (let ((load-path (cons dir load-path)))
+    (dolist (el (init-loader--re-load-files re dir sort))
+      (condition-case e
+          (let ((time (car (benchmark-run (load (file-name-sans-extension el))))))
+            (init-loader-log (format "loaded %s. %s" (locate-library el) time)))
+        (error
+         ;; (init-loader-error-log (error-message-string e)) ；削除
+         (init-loader-error-log (format "%s. %s" (locate-library el) (error-message-string e))) ;追加
+         )))))
 
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
 ;; @ OS dependency                                                 ;;;
