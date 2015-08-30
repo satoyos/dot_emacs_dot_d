@@ -28,7 +28,6 @@
        )
   (add-to-list 'load-path default-directory)
   (add-to-list 'load-path (concat user-emacs-directory "elpa"))
-;  (add-to-list 'load-path (concat user-emacs-directory "inits"))
   (add-to-list 'load-path (concat user-emacs-directory "conf"))
   (normal-top-level-add-subdirs-to-load-path)
   )
