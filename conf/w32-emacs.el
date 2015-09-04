@@ -14,6 +14,7 @@
 
 ;; IME変更
 (global-set-key (kbd "C-o") 'toggle-input-method)
+(global-set-key (kbd "C-\\") 'toggle-input-method)
 
 ;; 漢字/変換キー入力時のエラーメッセージ抑止
 (global-set-key (kbd "<A-kanji>") 'ignore)
