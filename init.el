@@ -682,10 +682,6 @@
 (setq hl-line-face 'hlline-face)
 (global-hl-line-mode)
 
-;; wdired
-(require 'wdired)
-(define-key dired-mode-map "r" 'wdired-change-to-wdired-mode)
-
 
 ;; popwin
 (setq pop-up-windows nil)
