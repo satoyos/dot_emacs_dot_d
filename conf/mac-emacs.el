@@ -20,7 +20,7 @@
 (setq mac-ime-mode-line-state-indicator-list '("[Aa]" "[あ]" "[Aa]"))
 
 ;; デフォルトIME
-(setq default-input-method "MacOSX"
+(setq default-input-method "MacOSX")
       
 
 ;; IME変更
