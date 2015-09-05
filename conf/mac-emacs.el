@@ -21,10 +21,11 @@
 
 ;; デフォルトIME
 (setq default-input-method "MacOSX")
+      
 
 ;; IME変更
-(global-set-key (kbd "C-\\") 'toggle-input-method)
-(global-set-key (kbd "C-o") 'toggle-input-method)
+;(global-set-key (kbd "C-\\") 'toggle-input-method)
+;(global-set-key (kbd "C-o") 'toggle-input-method)
 
 ;(mac-set-input-method-parameter "com.justsystems.inputmethod.atok27.Japanese" `title "あ")
 ;(mac-set-input-method-parameter "com.justsystems.inputmethod.atok27.Japanese" `cursor-color "darkred")
