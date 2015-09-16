@@ -1,5 +1,7 @@
 (require 'auto-complete)
 (require 'auto-complete-config)
+
+(add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
 ;; 対象の全てで補完を有効にする
 (global-auto-complete-mode t)
 (ac-config-default)
