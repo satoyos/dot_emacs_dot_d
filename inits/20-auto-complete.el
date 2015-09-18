@@ -151,6 +151,16 @@
     (prefix . "\\w[^>]*[[:space:]]+\\(.*\\)")
     (symbol . "HTML Attr")))
 
+;;; Dictionary 9 (html-attribute-value)
+(defvar ac-html-attrv-event-cache
+  (ac-file-dictionary (concat ac-user-dict-dir "html-attrv-list")))
+(defvar ac-source-html-attrv-event-dict
+  '((candidates . ac-html-attrv-event-cache)
+    (candidate-face . ac-jquery-candidate-face)
+    (selection-face . ac-my-selection-face)
+    (prefix . "<\\w[^>]*[[:space:]]+.*=[\"]\\(.*\\)")
+    (symbol . "HTML attrValue")))
+
 
 ;; Choose dictionaries and sorces.
 (defun ac-js-mode-setup ()
@@ -189,6 +199,7 @@
           ac-source-jquery-selector-dict ; prefix `x:'
           ac-source-html-tag-event-dict
           ac-source-html-attribute-event-dict
+          ac-source-html-attrv-event-dict
           )))
 
 ;; Apply to each major mode.
