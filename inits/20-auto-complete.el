@@ -139,20 +139,17 @@
     (selection-face . ac-my-selection-face)
     (prefix . "<\\([^>]*\\)")
     (action . ac-go-into-braces-action)
-    (symbol . "HTML tag")))
+    (symbol . "HTML Tag")))
 
 ;;; Dictionary 8 (html-attribute)
 (defvar ac-html-attribute-event-cache
-  (ac-file-dictionary (concat ac-user-dict-dir "html-attributes-list")))
+  (ac-file-dictionary (concat ac-user-dict-dir "html-attribute-list")))
 (defvar ac-source-html-attribute-event-dict
   '((candidates . ac-html-attribute-event-cache)
     (candidate-face . ac-jquery-candidate-face)
     (selection-face . ac-my-selection-face)
     (prefix . "\\w[^>]*[[:space:]]+\\(.*\\)")
-    (action . (lambda()
-                (when (eolp)
-                  (insert "=\"\""))))
-    (symbol . "HTML attr")))
+    (symbol . "HTML Attr")))
 
 
 ;; Choose dictionaries and sorces.
