@@ -598,17 +598,6 @@
 
 
 ;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
-;;; @ anything.el
-;;; 総合インタフェース
-;;; http://d.hatena.ne.jp/rubikitch/20100718/anything
-;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
-
-(require 'anything-startup nil t)
-(global-set-key (kbd "M-a")     'anything-for-files)
-(global-set-key (kbd "M-y") 'anything-show-kill-ring)
-(setq anything-use-migemo t)
-
-;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
 ;;; 「Emacsから逃げ出してSublimeText->Atomの後、
 ;;;   Emacsに再入門した際の設定とか記録」より
 ;;; http://blog.bokuweb.me/entry/emcas-nyumon
@@ -633,12 +622,6 @@
 
 ;; yes or noをy or n
 (fset 'yes-or-no-p 'y-or-n-p)
-
-;; 最近使ったファイルの表示数
-(setq recentf-max-menu-items 10)
-
-;; 最近開いたファイルの保存数を増やす
-(setq recentf-max-saved-items 3000)
 
 ;; ミニバッファの履歴を保存する
 (savehist-mode 1)
@@ -676,17 +659,6 @@
 (setq hl-line-face 'hlline-face)
 (global-hl-line-mode)
 
-
-;; popwin
-(setq pop-up-windows nil)
-(require 'popwin nil t)
-(when (require 'popwin nil t)
-  (setq anything-samewindow nil)
-  (setq display-buffer-function 'popwin:display-buffer)
-  (push '("anything" :regexp t :height 0.5) popwin:special-display-config)
-  (push '("*Completions*" :height 0.4) popwin:special-display-config)
-  (push '("*compilation*" :height 0.4 :noselect t :stick t) popwin:special-display-config)
-  )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;   init-loader   ;;;;;;;;;;;;;;;;;
