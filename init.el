@@ -504,66 +504,6 @@
 
 
 ;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
-;;; @ screen - tabbar                                               ;;;
-;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
-
-(require 'tabbar)
-
-;; tabbar有効化
-;(call-interactively 'tabbar-mode t)
-(tabbar-mode 1)
-
-;; ボタン非表示
-(dolist (btn '(tabbar-buffer-home-button
-               tabbar-scroll-left-button
-               tabbar-scroll-right-button))
-  (set btn (cons (cons "" nil) (cons "" nil)))
-  )
-
-;; タブ切替にマウスホイールを使用（0：有効，-1：無効）
-(call-interactively 'tabbar-mwheel-mode -1)
-(remove-hook 'tabbar-mode-hook      'tabbar-mwheel-follow)
-(remove-hook 'mouse-wheel-mode-hook 'tabbar-mwheel-follow)
-
-;; タブグループを使用（t：有効，nil：無効）
-(defvar tabbar-buffer-groups-function nil)
-(setq tabbar-buffer-groups-function nil)
-
-;; タブの表示間隔
-(defvar tabbar-separator nil)
-(setq tabbar-separator '(1.0))
-
-;; タブ切り替え
-(global-set-key (kbd "<C-tab>") 'tabbar-forward-tab)
-(global-set-key (kbd "C-q")     'tabbar-backward-tab)
-
-;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
-;;; @ search - migemo                                               ;;;
-;;;   https://github.com/emacs-jp/migemo                            ;;;
-;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
-
-(require 'migemo)
-
-(defvar migemo-command nil)
-(setq migemo-command "cmigemo")
-
-(defvar migemo-options nil)
-(setq migemo-options '("-q" "--emacs"))
-
-(defvar migemo-dictionary nil)
-(setq migemo-dictionary "/usr/local/share/migemo/utf-8/migemo-dict")
-
-(defvar migemo-user-dictionary nil)
-
-(defvar migemo-regex-dictionary nil)
-
-(defvar migemo-coding-system nil)
-(setq migemo-coding-system 'utf-8-unix)
-
-(load-library "migemo")
-
-
-;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
 ;;; 「Emacsから逃げ出してSublimeText->Atomの後、
 ;;;   Emacsに再入門した際の設定とか記録」より
 ;;; http://blog.bokuweb.me/entry/emcas-nyumon
