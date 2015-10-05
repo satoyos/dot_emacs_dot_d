@@ -16,8 +16,8 @@
 ;;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;;;
 
 ;; モードラインの表示文字列
-(setq-default mac-ime-mode-line-state-indicator "[Aa] ")
-(setq mac-ime-mode-line-state-indicator-list '("[Aa]" "[あ]" "[Aa]"))
+;(setq-default mac-ime-mode-line-state-indicator "[Aa] ")
+;(setq mac-ime-mode-line-state-indicator-list '("[Aa]" "[あ]" "[Aa]"))
 
 ;; デフォルトIME
 (setq default-input-method "MacOSX")
