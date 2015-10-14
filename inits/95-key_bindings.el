@@ -14,3 +14,6 @@
 
 ;; コメントの付与と削除
 (global-set-key (kbd "C-/")  'comment-dwim)
+
+;; 'opt-¥'で確実にバックスラッシュを入力できるようにする
+(global-set-key (kbd "s-¥")  "\\")
