@@ -17,3 +17,7 @@
 
 ;; 'opt-¥'で確実にバックスラッシュを入力できるようにする
 (global-set-key (kbd "s-¥")  "\\")
+
+;; URLをブラウザで開くキーバインド
+;; Web-modeで\C-c\C-jが効かないので、いっそのこと\C-jで開くようにした。
+(global-set-key "\C-j" 'browse-url-at-point)
