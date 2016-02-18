@@ -416,17 +416,23 @@
  '(blink-cursor-mode nil)
  '(column-number-mode t)
  '(cua-mode t nil (cua-base))
+ '(custom-safe-themes
+   (quote
+    ("11dd7fb48f2c0360f79e80a694c9e919a86dce32e5605018e9862e1e6287e3cb" default)))
+ '(helm-ff-auto-update-initial-value nil)
  '(show-paren-mode t)
+ '(tab-width 4)
  '(tabbar-mode t nil (tabbar))
  '(web-mode-code-indent-offset 2)
  '(web-mode-css-indent-offset 2)
- '(web-mode-markup-indent-offset 2))
+ '(web-mode-markup-indent-offset 2)
+ '(yas-trigger-key "TAB"))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(helm-selection ((t (:background "firebrick4" :distant-foreground "gold")))))
 ;; Local Variables:
 ;; coding: utf-8
 ;; mode: emacs-lisp
@@ -502,15 +508,7 @@
 (setq-default indent-tabs-mode nil)
 
 ;; タブ幅
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   (quote
-    ("11dd7fb48f2c0360f79e80a694c9e919a86dce32e5605018e9862e1e6287e3cb" default)))
- '(tab-width 4))
+
 
 ;; yes or noをy or n
 (fset 'yes-or-no-p 'y-or-n-p)
