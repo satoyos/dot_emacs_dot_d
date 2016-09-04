@@ -21,3 +21,6 @@
 ;; URLをブラウザで開くキーバインド
 ;; Web-modeで\C-c\C-jが効かないので、いっそのこと\C-jで開くようにした。
 (global-set-key "\C-j" 'browse-url-at-point)
+
+;; 文字列ペースト
+(global-set-key (kbd "M-v")  'paste)
