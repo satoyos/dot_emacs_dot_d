@@ -11,6 +11,7 @@
 
 ;; 文字列置換
 (global-set-key (kbd "M-r")  'replace-string)
+(global-set-key (kbd "C-M-r")  'replace-regexp)
 
 ;; コメントの付与と削除
 (global-set-key (kbd "C-/")  'comment-dwim)
